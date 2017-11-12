@@ -9,7 +9,9 @@ from pyomo.opt.base import SolverFactory
 
 # SCENARIOS
 def scenario_base(data):
-    # do nothing
+   
+    #pro = data['process']
+    #pro.loc[('StRupertMayer', 'Diesel Generator'), 'cap-up'] = 0
     return data
 
 
@@ -116,11 +118,16 @@ if __name__ == '__main__':
     # plotting commodities/sites
     plot_tuples = [
         ('StRupertMayer', 'Elec'),
+        #('StRupertMayer', 'Diesel'), 
+        #('StRupertMayer', 'Solar'),    
         ]
 
     # detailed reporting commodity/sites
     report_tuples = [
-       ('StRupertMayer', 'Elec')]
+       ('StRupertMayer', 'Elec'),
+       #('StRupertMayer', 'Diesel'),      
+       #('StRupertMayer', 'Solar'),  
+       ]
 
     # plotting timesteps
     plot_periods = {
@@ -133,6 +140,9 @@ if __name__ == '__main__':
     my_colors = {
         'Demand': (0, 0, 0),
         'Diesel Generator': (89, 89, 89),
+        'Photovoltaics': (255,201,71),
+        #'Battery':(200, 230, 200),
+        
         }
     for country, color in my_colors.items():
         urbs.COLORS[country] = color
