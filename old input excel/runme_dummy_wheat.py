@@ -9,14 +9,13 @@ from pyomo.opt.base import SolverFactory
 
 # SCENARIOS
 def scenario_base(data):
-    #sto = data['storage']
-    #sto.loc[('StRupertMayer', 'Battery'), 'cap-up-c'] = 0
-    #sto.loc[('StRupertMayer', 'Biogas Storage'), 'cap-up-c'] = 0
-    #sto.loc[('StRupertMayer', 'Silo'), 'cap-up-c'] = 0
+    sto = data['storage']
+   # sto.loc[('StRupertMayer', 'Battery'), 'cap-up-c'] = 0
+   # sto.loc[('StRupertMayer', 'Silo'), 'cap-up-c'] = 0
+    #sto.loc[('StRupertMayer', 'Water Tank'), 'cap-up-c'] = 0
     #pro = data['process']
     #pro.loc[('StRupertMayer', 'Photovoltaics'), 'cap-up'] = 0
-    #pro.loc[('StRupertMayer', 'Diesel Generator'), 'cap-up']=0
-    
+    #pro.loc[('StRupertMayer', 'Diesel Generator'), 'cap-up'] = 0
     return data
 
 
@@ -24,7 +23,7 @@ def prepare_result_directory(result_name):
     """ create a time stamped directory within the result folder """
     # timestamp for result directory
     now = datetime.now().strftime('%Y%m%dT%H%M')
-
+    
     # create result directory if not existent
     result_dir = os.path.join('result', '{}-{}'.format(result_name, now))
     if not os.path.exists(result_dir):
@@ -107,7 +106,7 @@ def run_scenario(input_file, timesteps, scenario, result_dir,
     return prob
 
 if __name__ == '__main__':
-    input_file = 'dummy_D_PV_Bio_Field_Water_Sell.xlsx'
+    input_file = 'dummy_D_PV_B.xlsx'
     result_name = os.path.splitext(input_file)[0]  # cut away file extension
     result_dir = prepare_result_directory(result_name)  # name + time stamp
 
@@ -117,51 +116,50 @@ if __name__ == '__main__':
     shutil.copyfile(__file__, os.path.join(result_dir, 'runme_dummy.py'))
 
     # simulation timesteps
-    (offset, length) = (0,100)  # time step selection
+    (offset, length) = (0,2400)  # time step selection
     timesteps = range(offset, offset+length+1)
 
     # plotting commodities/sites
     plot_tuples = [
-       ('StRupertMayer', 'Elec'),
-       ('StRupertMayer', 'Diesel'), 
-       ('StRupertMayer', 'Solar'),
-       ('StRupertMayer', 'Biogas'),
-       ('StRupertMayer', 'Tomato'),
-       ('StRupertMayer', 'Water'),
-       #('StRupertMayer', 'Tomato Sell'),
-       ]
-    
+        ('StRupertMayer', 'Elec'),
+        ('StRupertMayer', 'Water'), 
+       # ('StRupertMayer', 'Water Power'), 
+        ('StRupertMayer', 'Wheat ha'),
+        ('StRupertMayer', 'Wheat'),
+       # ('StRupertMayer', 'Solar'),    
+        ]
+
     # detailed reporting commodity/sites
     report_tuples = [
        ('StRupertMayer', 'Elec'),
-       ('StRupertMayer', 'Diesel'),        
-       ('StRupertMayer', 'Solar'),  
-       ('StRupertMayer', 'Biogas'),
-       ('StRupertMayer', 'Tomato'),
+       #('StRupertMayer', 'Diesel'),        
+       #('StRupertMayer', 'Solar'), 
        ('StRupertMayer', 'Water'),
-       #('StRupertMayer', 'Tomato Sell'),
+       #('StRupertMayer', 'Water Power'),
+       ('StRupertMayer', 'Wheat ha'),
+       ('StRupertMayer', 'Wheat'),
        ]
 
     # plotting timesteps
     plot_periods = {
        # 'all': timesteps[1:168],
-       '1_week': range(   1,  168),
+       '1_week': range(2032,  2200),
         #'1_day': range(   1,  24),
-       '1_month': range(   1,  672),
-        }
+        #'1_month': range(   1,  720),
+    }
 
     # add or change plot colors
     my_colors = {
+        'Storage':(4,0,98),   
         'Demand': (0, 0, 0),
         'Diesel Generator': (89, 89, 89),
         'Photovoltaics': (255,201,71),
-        #'Battery':(200, 230, 200),
-        'Biogas Generator':(172,233,110),
-        'Biomass Digester':(54,93,14),    
-        'Tomato Field':(213,91,94),
         'Water Pump':(91, 155, 213),
-        'Feed-in Tomato':(101,26,28),
+        'Wheat Field':(213,149,91),
+        'Converter kWh to m3':(91,213,210),
+        'Converter ha to ton':(213,91,94),
         }
+    
     for country, color in my_colors.items():
         urbs.COLORS[country] = color
 
