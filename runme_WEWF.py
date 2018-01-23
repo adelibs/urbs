@@ -9,52 +9,24 @@ from pyomo.opt.base import SolverFactory
 
 # SCENARIOS
 def scenario_base(data):
-    # do nothing
-    return data
-
-
-def scenario_stock_prices(data):
-    # change stock commodity prices
-    co = data['commodity']
-    stock_commodities_only = (co.index.get_level_values('Type') == 'Stock')
-    co.loc[stock_commodities_only, 'price'] *= 1.5
-    return data
-
-
-def scenario_co2_limit(data):
-    # change global CO2 limit
-    global_prop = data['global_prop']
-    global_prop.loc['CO2 limit', 'value'] *= 0.05
-    return data
-
-
-def scenario_co2_tax_mid(data):
-    # change CO2 price in Mid
-    co = data['commodity']
-    co.loc[('Mid', 'CO2', 'Env'), 'price'] = 50
-    return data
-
-
-def scenario_north_process_caps(data):
-    # change maximum installable capacity
+    sto = data['storage']
+    #sto.loc[('StRupertMayer', 'Battery'), 'cap-up-c'] = 0
+    #sto.loc[('StRupertMayer', 'Biogas Storage'), 'cap-up-c'] = 0
+    #sto.loc[('StRupertMayer', 'Wheat Storage'), 'cap-up-c'] = 0
+    #sto.loc[('StRupertMayer', 'Water Tank'), 'cap-up-c'] = 0
+    #sto.loc[('StRupertMayer', 'Biogas Equivalent Storage'), 'cap-up-c'] = 0
     pro = data['process']
-    pro.loc[('North', 'Hydro plant'), 'cap-up'] *= 0.5
-    pro.loc[('North', 'Biomass plant'), 'cap-up'] *= 0.25
-    return data
-
-
-def scenario_no_dsm(data):
-    # empty the DSM dataframe completely
-    data['dsm'] = pd.DataFrame()
-    return data
-
-
-def scenario_all_together(data):
-    # combine all other scenarios
-    data = scenario_stock_prices(data)
-    data = scenario_co2_limit(data)
-    data = scenario_north_process_caps(data)
-    return data
+    #pro.loc[('StRupertMayer', 'Photovoltaics'), 'cap-up'] = 0
+    #pro.loc[('StRupertMayer', 'Diesel Generator'), 'cap-up']=0
+    #pro.loc[('StRupertMayer', 'Water Pump'), 'cap-up']=0
+    #pro.loc[('StRupertMayer', 'WheatBuy to Wheat'),'cap-up']=0
+    #pro.loc[('StRupertMayer', 'Wheat Field'), 'cap-up']=0
+    #pro.loc[('StRupertMayer', 'Wheat to WheatSell'),'cap-up']=0
+    #pro.loc[('StRupertMayer', 'Water to Irrigation Water'), 'cap-up']=0
+    #pro.loc[('StRupertMayer', 'Wheat to Biogas Equivalent'), 'cap-up']=0
+    #pro.loc[('StRupertMayer', 'Biogas Generator'), 'cap-up']=0
+    #pro.loc[('StRupertMayer', 'Biogas Digester'), 'cap-up']=0
+    return data 
 
 
 def prepare_result_directory(result_name):
@@ -110,7 +82,6 @@ def run_scenario(input_file, timesteps, scenario, result_dir,
     # scenario name, read and modify data for scenario
     sce = scenario.__name__
     data = urbs.read_excel(input_file)
-    urbs.validate_input(data)
     data = scenario(data)
 
     # create model
@@ -126,7 +97,7 @@ def run_scenario(input_file, timesteps, scenario, result_dir,
     result = optim.solve(prob, tee=True)
 
     # save problem solution (and input data) to HDF5 file
-    #urbs.save(prob, os.path.join(result_dir, '{}.h5'.format(sce)))
+   # urbs.save(prob, os.path.join(result_dir, '{}.h5'.format(sce)))
 
     # write report to spreadsheet
     urbs.report(
@@ -145,54 +116,83 @@ def run_scenario(input_file, timesteps, scenario, result_dir,
     return prob
 
 if __name__ == '__main__':
-    input_file = 'mimo-example.xlsx'
+    input_file = 'dummy_WEWF.xlsx'
     result_name = os.path.splitext(input_file)[0]  # cut away file extension
     result_dir = prepare_result_directory(result_name)  # name + time stamp
 
     # copy input file to result directory
     shutil.copyfile(input_file, os.path.join(result_dir, input_file))
     # copy runme.py to result directory
-    shutil.copyfile(__file__, os.path.join(result_dir,'runme.py'))
+    shutil.copyfile(__file__, os.path.join(result_dir, 'runme_WEWF.py'))
 
     # simulation timesteps
-    (offset, length) = (0, 168)  # time step selection
+    (offset, length) = (0,8760)  # time step selection
     timesteps = range(offset, offset+length+1)
 
     # plotting commodities/sites
     plot_tuples = [
-        ('North', 'Elec'),
-        ('Mid', 'Elec'),
-        ('South', 'Elec'),
-        (['North', 'Mid', 'South'], 'Elec')]
-
+       ('StRupertMayer', 'Elec'),
+       ('StRupertMayer', 'Diesel'), 
+       ('StRupertMayer', 'Solar'),
+       ('StRupertMayer', 'Water'),
+       ('StRupertMayer', 'WaterBuy'),
+       ('StRupertMayer', 'Wheat'),
+       ('StRupertMayer', 'WheatBuy'),
+       ('StRupertMayer', 'Irrigation Water'),
+       ('StRupertMayer', 'Wheat Waste'),
+       ('StRupertMayer', 'WheatSell'),
+       ('StRupertMayer', 'Biogas Equivalent'),
+       ('StRupertMayer', 'Biogas'),
+       ]
+    
     # detailed reporting commodity/sites
     report_tuples = [
-        ('North', 'Elec'), ('Mid', 'Elec'), ('South', 'Elec'),
-        ('North', 'CO2'), ('Mid', 'CO2'), ('South', 'CO2')]
+       ('StRupertMayer', 'Elec'),
+       ('StRupertMayer', 'Diesel'),        
+       ('StRupertMayer', 'Solar'),  
+       ('StRupertMayer', 'Water'),
+       ('StRupertMayer', 'WaterBuy'),
+       ('StRupertMayer', 'Wheat'),
+       ('StRupertMayer', 'WheatBuy'),
+       ('StRupertMayer', 'Irrigation Water'),
+       ('StRupertMayer', 'Wheat Waste'),
+       ('StRupertMayer', 'WheatSell'),
+       ('StRupertMayer', 'Biogas Equivalent'),
+       ('StRupertMayer', 'Biogas'),
+       ]
 
     # plotting timesteps
     plot_periods = {
-        'all': timesteps[1:]
-    }
+        #'all': timesteps[1:8760],
+       '1_week': range(   1,  168),
+        #'1_day': range(   1,  24),
+       '1_month': range(   1,  672),
+        }
 
     # add or change plot colors
     my_colors = {
-        'South': (230, 200, 200),
-        'Mid': (200, 230, 200),
-        'North': (200, 200, 230)}
+        'Demand': (0, 0, 0),
+        'Diesel Generator': (89, 89, 89),
+        'Photovoltaics': (255,201,71),
+        'WaterBuy to Water':(200,221,241),
+        'Water to Irrigation Water':(130,156,200),
+        'WheatBuy to Wheat':(208,185,148),
+        'Biogas Generator':(172,233,110),
+        'Biogas Digester':(54,93,14),    
+        'Wheat Field':(184,151,95),
+        'Water Pump':(91, 155, 213),
+        'Shunt(Waste)':(95,66,55),
+        'Wheat to WheatSell':(140,111,62),
+        'Wheat Waste to Biogas Equivalent':(173,130,114),
+        'Wheat to Biogas Equivalent':(173,154,160),
+        }
     for country, color in my_colors.items():
         urbs.COLORS[country] = color
 
     # select scenarios to be run
     scenarios = [
         scenario_base,
-        #scenario_stock_prices,
-        #scenario_co2_limit,
-        #scenario_co2_tax_mid,
-        #scenario_no_dsm,
-        #scenario_north_process_caps,
-        #scenario_all_together
-        ]
+     ]
 
     for scenario in scenarios:
         prob = run_scenario(input_file, timesteps, scenario, result_dir,
