@@ -86,3 +86,43 @@ Parameter OutputFlag unchanged
 Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
 Parameter OutputFlag unchanged
    Value: 1  Min: 0  Max: 1  Default: 1
+
+Gurobi 7.5.2 (win64, Python) logging started 02/14/18 20:10:21
+
+Academic license - for non-commercial use only
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+
+Gurobi 7.5.2 (win64, Python) logging started 02/14/18 20:22:22
+
+Academic license - for non-commercial use only
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+
+Gurobi 7.5.2 (win64, Python) logging started 02/14/18 20:38:06
+
+Academic license - for non-commercial use only
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Parameter OutputFlag unchanged
+   Value: 1  Min: 0  Max: 1  Default: 1
