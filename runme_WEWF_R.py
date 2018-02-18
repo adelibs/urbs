@@ -116,17 +116,17 @@ def run_scenario(input_file, timesteps, scenario, result_dir,
     return prob
 
 if __name__ == '__main__':
-    input_file = 'dummy_WEWF.xlsx'
+    input_file = 'dummy_WEWF_R.xlsx'
     result_name = os.path.splitext(input_file)[0]  # cut away file extension
     result_dir = prepare_result_directory(result_name)  # name + time stamp
 
     # copy input file to result directory
     shutil.copyfile(input_file, os.path.join(result_dir, input_file))
     # copy runme.py to result directory
-    shutil.copyfile(__file__, os.path.join(result_dir, 'runme_WEWF.py'))
+    shutil.copyfile(__file__, os.path.join(result_dir, 'runme_WEWF_R.py'))
 
     # simulation timesteps
-    (offset, length) = (0,300)  # time step selection
+    (offset, length) = (0,3120)  # time step selection
     timesteps = range(offset, offset+length+1)
 
     # plotting commodities/sites
@@ -143,6 +143,7 @@ if __name__ == '__main__':
        ('StRupertMayer', 'WheatSell'),
        ('StRupertMayer', 'Biogas Equivalent'),
        ('StRupertMayer', 'Biogas'),
+       ('StRupertMayer', 'Rain'),
        ]
     
     # detailed reporting commodity/sites
@@ -159,14 +160,18 @@ if __name__ == '__main__':
        ('StRupertMayer', 'WheatSell'),
        ('StRupertMayer', 'Biogas Equivalent'),
        ('StRupertMayer', 'Biogas'),
+       ('StRupertMayer', 'Rain'),
        ]
 
     # plotting timesteps
     plot_periods = {
-        #'all': timesteps[1:8760],
-       '1_week': range(   1,  168),
+        'all': timesteps[1:3120],
+       #'1_week': range(   1,  168),
         #'1_day': range(   1,  24),
-       '1_month': range(   1,  672),
+       #'1_month': range(   1,  672),
+       'Jan': range(   1,  168),
+       'April': range(  2400,  2568),
+       'May': range(  2900,  3068),
         }
 
     # add or change plot colors
@@ -185,6 +190,7 @@ if __name__ == '__main__':
         'Wheat to WheatSell':(140,111,62),
         'Wheat Waste to Biogas Equivalent':(173,130,114),
         'Wheat to Biogas Equivalent':(173,154,160),
+        'Rain to Irrigation Water':(119,143,252),
         }
     for country, color in my_colors.items():
         urbs.COLORS[country] = color
