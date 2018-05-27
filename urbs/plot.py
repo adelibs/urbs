@@ -58,7 +58,7 @@ def sort_plot_elements(elements):
 
 def plot(prob, com, sit, timesteps=None,
          power_name='Power', energy_name='Energy',
-         power_unit='MW', energy_unit='MWh', time_unit='h',
+         power_unit='kW', energy_unit='kWh', time_unit='h',
          figure_size=(16, 12)):
     """Plot a stacked timeseries of commodity balance and storage.
 
