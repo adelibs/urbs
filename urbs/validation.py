@@ -29,3 +29,49 @@ def validate_input(data):
                                  ' be specified in the commodity input sheet'
                                  '! The pair (' + sit + ',' + com + ')'
                                  ' is not in commodity input sheet.')
+
+    # Identify infeasible process, transmission and storage capacity
+    # constraints before solving
+    for index in data['process'].index:
+        if not (data['process'].loc[index]['cap-lo'] <=
+                data['process'].loc[index]['cap-up'] and
+                data['process'].loc[index]['inst-cap'] <=
+                data['process'].loc[index]['cap-up']):
+            raise ValueError('Ensure cap_lo <= cap_up and inst_cap <= cap_up'
+                             ' for all processes.')
+
+    for index in data['transmission'].index:
+        if not (data['transmission'].loc[index]['cap-lo'] <=
+                data['transmission'].loc[index]['cap-up'] and
+                data['transmission'].loc[index]['inst-cap'] <=
+                data['transmission'].loc[index]['cap-up']):
+            raise ValueError('Ensure cap_lo <= cap_up and inst_cap <= cap_up'
+                             ' for all transmissions.')
+
+    for index in data['storage'].index:
+        if not (data['storage'].loc[index]['cap-lo-p'] <=
+                data['storage'].loc[index]['cap-up-p'] and
+                data['storage'].loc[index]['inst-cap-p'] <=
+                data['storage'].loc[index]['cap-up-p']):
+            raise ValueError('Ensure cap_lo <= cap_up and inst_cap <= cap_up'
+                             ' for all storage powers.')
+
+        elif not (data['storage'].loc[index]['cap-lo-c'] <=
+                  data['storage'].loc[index]['cap-up-c'] and
+                  data['storage'].loc[index]['inst-cap-c'] <=
+                  data['storage'].loc[index]['cap-up-c']):
+            raise ValueError('Ensure cap_lo <= cap_up and inst_cap <= cap_up'
+                             ' for all storage capacities.')
+
+    # Identify SupIm values larger than 1, which lead to an infeasible model
+    if (data['supim'] > 1).sum().sum() > 0:
+        raise ValueError('All values in Sheet SupIm must be <= 1.')
+
+    # Identify outdated column label 'maxperstep' on the commodity tab and
+    # suggest a rename to 'maxperhour'
+    if 'maxperstep' in list(data['commodity']):
+        raise KeyError("Maximum allowable commodities are defined by per "
+                       "hour. Please change the column name 'maxperstep' "
+                       "in the commodity worksheet to 'maxperhour' and "
+                       "ensure that the input values are adjusted "
+                       "correspondingly.")
