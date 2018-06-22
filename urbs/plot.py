@@ -215,8 +215,9 @@ def plot(prob, com, sit, dt, timesteps=None,
     lg = ax0.legend(handles=handles[::-1],
                     labels=labels[::-1],
                     frameon=False,
-                    loc='upper left',
-                    bbox_to_anchor=(1, 1))
+                    loc='lower center', #loc='upper left',
+                    ncol=8,
+                    bbox_to_anchor=(0.5, -0.75)) # bbox_to_anchor=(1, 1))
     plt.setp(lg.get_patches(), edgecolor=to_color('Decoration'),
              linewidth=0.15)
     plt.setp(ax0.get_xticklabels(), visible=False)

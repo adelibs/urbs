@@ -9,7 +9,27 @@ from pyomo.opt.base import SolverFactory
 
 # SCENARIOS
 def scenario_base(data):
-    # do nothing
+    sto = data['storage']
+    #sto.loc[('Village', 'Battery'), 'cap-up-c'] = 0
+    #sto.loc[('Village', 'Domestic Water Tank'), 'inst-cap-c'] = 0
+    #sto.loc[('Village', 'Biogas Storage'), 'cap-up-c'] = 0
+    #sto.loc[('Village', 'Wheat Storage'), 'cap-up-c'] = 0
+    #sto.loc[('Village', 'Water Tank'), 'cap-up-c'] = 0
+    #sto.loc[('Village', 'Biogas Equivalent Storage'), 'cap-up-c'] = 0
+    #sto.loc[('Village', 'Biogas Equivalent Storage'), 'cap-up-c'] = 0
+    pro = data['process']
+    #pro.loc[('Village', 'Photovoltaics'), 'cap-up'] = 0
+    #pro.loc[('Village', 'Diesel Generator'), 'cap-up']=0
+    #pro.loc[('Village', 'WaterBuy to Domestic Water'), 'inv-cost']=0
+    #pro.loc[('Village', 'WaterBuy to Water'), 'cap-up']=0
+    #pro.loc[('Village', 'Water Pump'), 'cap-up']=0
+    #pro.loc[('Village', 'WheatBuy to Wheat'),'cap-up']=0
+    #pro.loc[('Village', 'Maize Farm'), 'cap-up']=0
+    #pro.loc[('Village', 'Wheat to WheatSell'),'cap-up']=0
+    #pro.loc[('Village', 'Water to Irrigation Water'), 'cap-up']=0
+    #pro.loc[('Village', 'Wheat to Biogas Equivalent'), 'cap-up']=0
+    #pro.loc[('Village', 'Biogas Generator'), 'cap-up']=0
+    #pro.loc[('Village', 'Biogas Digester'), 'cap-up']=0
     return data
 
 def prepare_result_directory(result_name):
@@ -127,17 +147,20 @@ if __name__ == '__main__':
        #('Village', 'Diesel'), 
        #('Village', 'Solar'),
        #('Village', 'Domestic Water'),
-       ('Village', 'Groundwater'),
+       #('Village', 'Groundwater'),
+       #('Village', 'Rainwater'),
        ('Village', 'Irrigation Water'),
-       ('Village', 'Maize'),
-       ('Village', 'Maize Stover'),
+       #('Village', 'Crop Water Need'),
+       #('Village', 'EffRain'),
+       #('Village', 'Maize'),
+       #('Village', 'Maize Stover'),
        #('Village', 'Substrate'),
        #('Village', 'Methan'),
        #('Village', 'Manure'),
        #('Village', 'MaizeBuy'),
-       ('Village', 'Blue Water'),
+       #('Village', 'Blue Water'),
        #('Village', 'EffRain'),
-       ('Village', 'Green Water'),
+       #('Village', 'Green Water'),
        # ('Village', 'Wheat Waste'),
        # ('Village', 'WheatSell'),
        # ('Village', 'Biogas Equivalent'),
@@ -153,18 +176,21 @@ if __name__ == '__main__':
         ('Village', 'Elec'),
        #('Village', 'Diesel'), 
        #('Village', 'Solar'),
-       #('Village', 'Domestic Water'),
+       ('Village', 'Domestic Water'),
        ('Village', 'Groundwater'),
+       #('Village', 'Rainwater'),
        ('Village', 'Irrigation Water'),
+       ('Village', 'Crop Water Need'),
+       #('Village', 'EffRain'),
        ('Village', 'Maize'),
-       ('Village', 'Maize Stover'),
+       #('Village', 'Maize Stover'),
        #('Village', 'Substrate'),
        #('Village', 'Methan'),
        #('Village', 'Manure'),
        #('Village', 'MaizeBuy'),
-       ('Village', 'Blue Water'),
+       #('Village', 'Blue Water'),
        #('Village', 'EffRain'),
-       ('Village', 'Green Water'),
+       #('Village', 'Green Water'),
        # ('Village', 'Wheat Waste'),
        # ('Village', 'WheatSell'),
        # ('Village', 'Biogas Equivalent'),
@@ -178,13 +204,17 @@ if __name__ == '__main__':
     # plotting timesteps
     plot_periods = {
        'all': timesteps[1:],
-       #'January': range(   1,  336),
-       #'January2': range(   337,  600),
-       #'January3': range(  601, 1000),
-       'April': range(2161,  2496),
-       #'July': range( 4321,  4656),
-       #'September': range(5761,  6096),
-       #'November': range( 7201,  7536),
+       'Jan': range(  1,  168),
+       #'Jan2': range( 337,  504),
+       #'Feb': range(721,  888),
+       #'March': range(1441,  1608),
+       'April': range(2161,  2328),
+       'June': range( 3600,  3768),
+       'July': range( 4321,  4488),
+       'August': range( 5041,  5208),
+       'September': range(5761,  5928),
+       'October': range(6481,  6648),
+       'December': range(8593,  8760),
        #'all_1': range( 1,  4320),
        #'all_2': range( 4321,  8760),
        #'1_day': range(   1,  24),
@@ -198,17 +228,18 @@ if __name__ == '__main__':
         'Diesel Generator': (187, 187, 187),
         'Photovoltaics': (255,201,71),
         'WaterBuy to Domestic Water':(200,221,241),
-        'Groundwater to Blue Water':(4,131,255),
-        'Blue Water to Irrigation Water':(193,229,241),
+        'Groundwater to Irrigation Water':(4,131,255),
+        'Irrigation Water to Crop Water Need':(193,229,241),
         'Groundwater to Domestic Water':(152,245,255),
         'MaizeBuy to Maize':(205,170,125),
         #'Biogas Generator':(172,233,110),
         #'Biogas Digester':(54,93,14),    
         'Maize Farm':(245,222,179),
         'Water Pump':(91, 155, 213),
-        'Green Water to Irrigation Water':(155,205,155),
+        'EffRain to Crop Water Need':(155,205,155),
         'Shunt(Green Water)':(34,139,34),
-        'EffRain to Green Water':(81,102,45),
+        'Rainwater to EffRain':(81,102,45),
+        'Rainwater Harvesting':(155,205,155),
         #'Shunt(Waste)':(95,66,55),
         #'Wheat to WheatSell':(140,111,62),
         #'Wheat Waste to Biogas Equivalent':(173,130,114),
