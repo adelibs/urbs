@@ -251,7 +251,7 @@ if __name__ == '__main__':
         'Rainwater to EffRain':(81,102,45),
         'Rainwater Harvesting':(155,205,155),
         'Stone Stove':(153,0,0),
-        'Biogas Stove':(153,0,0),
+        'Biogas Stove':(230,149,0),
         #'Shunt(Waste)':(95,66,55),
         #'Wheat to WheatSell':(140,111,62),
         #'Wheat Waste to Biogas Equivalent':(173,130,114),
