@@ -107,7 +107,7 @@ def run_scenario(input_file, timesteps, scenario, result_dir, dt,
 
 
 if __name__ == '__main__':
-    input_file = 'Village_B.xlsx'
+    input_file = 'Village_H.xlsx'
     result_name = os.path.splitext(input_file)[0]  # cut away file extension
     result_dir = prepare_result_directory(result_name)  # name + time stamp
 
@@ -123,9 +123,9 @@ if __name__ == '__main__':
 
     # plotting commodities/sites
     plot_tuples = [
-        ('Village', 'Elec'),
+        ('Village', 'Heat'),
         ('Village', 'Biogas'),
-        ('Village', 'Substrate'),
+        ('Village', 'Firewood'),
         #('Village', 'Maize Stover'),
         #('Village', 'Inoculum'),
        #('Village', 'Diesel'), 
@@ -155,11 +155,11 @@ if __name__ == '__main__':
 
     # detailed reporting commodity/sites
     report_tuples = [
-        ('Village', 'Elec'),
+        ('Village', 'Heat'),
         ('Village', 'Biogas'),
-        ('Village', 'Substrate'),
-        ('Village', 'Maize Stover'),
-        ('Village', 'Manure'),
+        ('Village', 'Firewood'),
+       #('Village', 'Maize Stover'),
+       #('Village', 'Manure'),
        #('Village', 'Diesel'), 
        #('Village', 'Solar'),
        #('Village', 'Domestic Water'),
@@ -189,13 +189,13 @@ if __name__ == '__main__':
     plot_periods = {
        'all': timesteps[1:],
        'January': range(   1,  168),
-       'January2': range(   337,  600),
-       'January3': range(  601, 1000),
+       #'January2': range(   337,  600),
+       #'January3': range(  601, 1000),
        #'March': range(1401,  1776),
        #'April': range(2161,  2496),
-       #'July': range( 4321,  4656),
+       'July': range( 4321,  4656),
        #'September': range(5761,  6096),
-       #'November': range( 7201,  7536),
+       'November': range( 7201,  7536),
        #'all_1': range( 1,  4320),
        #'all_2': range( 4321,  8760),
        #'1_day': range(   1,  24),

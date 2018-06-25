@@ -29,7 +29,7 @@ def scenario_base(data):
     #pro.loc[('Village', 'Water to Irrigation Water'), 'cap-up']=0
     #pro.loc[('Village', 'Wheat to Biogas Equivalent'), 'cap-up']=0
     #pro.loc[('Village', 'Biogas Generator'), 'cap-up']=0
-    #pro.loc[('Village', 'Biogas Digester'), 'cap-up']=0
+    #pro.loc[('Village', 'Anaerobic Digester'), 'cap-up']=0
     return data
 
 def prepare_result_directory(result_name):
@@ -143,7 +143,8 @@ if __name__ == '__main__':
 
     # plotting commodities/sites
     plot_tuples = [
-        ('Village', 'Elec'),
+       ('Village', 'Elec'),
+       #('Village', 'Slack'),
        #('Village', 'Diesel'), 
        #('Village', 'Solar'),
        #('Village', 'Domestic Water'),
@@ -153,18 +154,24 @@ if __name__ == '__main__':
        #('Village', 'Crop Water Need'),
        #('Village', 'EffRain'),
        #('Village', 'Maize'),
+       #('Village', 'MaizeSell'),
        #('Village', 'Maize Stover'),
+       ('Village', 'Biogas'),
+       ('Village', 'Cooking Heat'),
        #('Village', 'Substrate'),
        #('Village', 'Methan'),
        #('Village', 'Manure'),
+       #('Village', 'Fertilizer'),
+       #('Village', 'FertilizerBuy'),
+       #('Village', 'Labor'),
        #('Village', 'MaizeBuy'),
+       #('Village', 'WaterBuy'),
        #('Village', 'Blue Water'),
        #('Village', 'EffRain'),
        #('Village', 'Green Water'),
        # ('Village', 'Wheat Waste'),
        # ('Village', 'WheatSell'),
        # ('Village', 'Biogas Equivalent'),
-       # ('Village', 'Biogas'),
        # ('Village', 'Rain'),
         ]
 
@@ -181,21 +188,24 @@ if __name__ == '__main__':
        #('Village', 'Rainwater'),
        ('Village', 'Irrigation Water'),
        ('Village', 'Crop Water Need'),
-       #('Village', 'EffRain'),
+       ('Village', 'EffRain'),
        ('Village', 'Maize'),
-       #('Village', 'Maize Stover'),
-       #('Village', 'Substrate'),
-       #('Village', 'Methan'),
-       #('Village', 'Manure'),
+       ('Village', 'Maize Stover'),
+       ('Village', 'Biogas'),
+       ('Village', 'Substrate'),
+       ('Village', 'Manure'),
+       ('Village', 'Fertilizer'),
+       #('Village', 'Labor'),
        #('Village', 'MaizeBuy'),
+       #('Village', 'WaterBuy'),
        #('Village', 'Blue Water'),
        #('Village', 'EffRain'),
        #('Village', 'Green Water'),
        # ('Village', 'Wheat Waste'),
        # ('Village', 'WheatSell'),
-       # ('Village', 'Biogas Equivalent'),
-       # ('Village', 'Biogas'),
-       # ('Village', 'Rain'),
+       ('Village', 'Cooking Heat'),
+       ('Village', 'Firewood'),
+       #('Village', 'Rain'),
         ]
  
     # optional: define names for sites in report_tuples
@@ -205,9 +215,9 @@ if __name__ == '__main__':
     plot_periods = {
        'all': timesteps[1:],
        'Jan': range(  1,  168),
-       #'Jan2': range( 337,  504),
-       #'Feb': range(721,  888),
-       #'March': range(1441,  1608),
+       'Jan2': range( 169,  336),
+       'Feb': range(721,  888),
+       'March': range(1441,  1608),
        'April': range(2161,  2328),
        'June': range( 3600,  3768),
        'July': range( 4321,  4488),
@@ -232,14 +242,16 @@ if __name__ == '__main__':
         'Irrigation Water to Crop Water Need':(193,229,241),
         'Groundwater to Domestic Water':(152,245,255),
         'MaizeBuy to Maize':(205,170,125),
-        #'Biogas Generator':(172,233,110),
-        #'Biogas Digester':(54,93,14),    
+        'Biogas Generator':(82,183,71),
+        'Anaerobic Digester':(187,231,2),
         'Maize Farm':(245,222,179),
         'Water Pump':(91, 155, 213),
         'EffRain to Crop Water Need':(155,205,155),
         'Shunt(Green Water)':(34,139,34),
         'Rainwater to EffRain':(81,102,45),
         'Rainwater Harvesting':(155,205,155),
+        'Stone Stove':(153,0,0),
+        'Biogas Stove':(153,0,0),
         #'Shunt(Waste)':(95,66,55),
         #'Wheat to WheatSell':(140,111,62),
         #'Wheat Waste to Biogas Equivalent':(173,130,114),
